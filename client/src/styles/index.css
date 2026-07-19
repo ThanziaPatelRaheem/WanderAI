@@ -1,0 +1,94 @@
+:root {
+  --font-primary: "DM Sans", sans-serif;
+
+  --color-primary: #0f8b8d;
+  --color-primary-dark: #0a6d70;
+  --color-primary-hover: #0c7b7e;
+
+  --color-text: #102a43;
+  --color-text-light: #52606d;
+
+  --color-background: #f4f8f8;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8fbfb;
+
+  --color-border: #dce8e8;
+  --header-width: 88rem;
+  --container-width: 80rem;
+  --content-width: 60rem;
+  --page-padding: 1.5rem;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+body {
+  margin: 0;
+  min-width: 20rem;
+  min-height: 100vh;
+  font-family: var(--font-primary);
+  background: radial-gradient(
+    circle at top,
+    #fbfdfd 0%,
+    var(--color-background) 45%,
+    #eef5f5 100%
+  );
+  color: var(--color-text);
+}
+#root {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+.header-container {
+  width: min(var(--header-width), calc(100% - (var(--page-padding) * 2)));
+  margin-inline: auto;
+}
+
+.container {
+  width: min(var(--container-width), calc(100% - (var(--page-padding) * 2)));
+  margin-inline: auto;
+}
+
+.content-container {
+  width: min(var(--content-width), calc(100% - (var(--page-padding) * 2)));
+  margin-inline: auto;
+}
+
+@media (max-width: 48rem) {
+  :root {
+    --page-padding: 1rem;
+  }
+}

@@ -1,0 +1,14 @@
+.footer {
+  padding: 2rem var(--page-padding);
+
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+
+.footer__copyright {
+  color: var(--color-text-light);
+
+  font-size: 0.9rem;
+  text-align: center;
+  line-height: 1.6;
+}

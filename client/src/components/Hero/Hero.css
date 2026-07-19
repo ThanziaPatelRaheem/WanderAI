@@ -1,0 +1,234 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  min-height: 31rem;
+  padding: 4rem 0 8rem;
+
+  background-color: var(--color-background);
+}
+
+/* Background image */
+.hero__backgrounds {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+}
+.hero__background {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+
+  /* background-image: url("../../assets/images/hero/hero-bali.webp"); */
+  background-repeat: no-repeat;
+  background-position: 58% center;
+  background-size: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  background-color: var(--color-background);
+  filter: brightness(0.72) contrast(1.22) saturate(1.92);
+}
+.hero__background--active {
+  opacity: 1;
+  /* transform: scale(1.05); */
+}
+/* Light fade behind the text */
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  /* background: linear-gradient(
+    180deg,
+    rgba(8, 20, 35, 0.1) 0%,
+    rgba(8, 20, 35, 0.08) 45%,
+    rgba(255, 255, 255, 0.12) 82%,
+    rgba(255, 255, 255, 0.7) 100%
+  ); */
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* min-height: 26rem; */
+  /* padding: 4rem; */
+  padding-top: 2rem;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+
+  width: min(100%, 50rem);
+  text-align: center;
+}
+.hero__content::before {
+  content: "";
+  position: absolute;
+  inset: -2rem -3rem;
+  z-index: -1;
+
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0.2) 52%,
+    rgba(255, 255, 255, 0) 76%
+  );
+
+  filter: blur(1.5rem);
+}
+
+.hero__title {
+  max-width: none;
+  margin-inline: auto;
+  color: var(--color-text);
+  font-size: clamp(2.2rem, 3.2vw, 3.15rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+  text-shadow: 0 0.125rem 0.6rem rgba(255, 255, 255, 0.55);
+}
+.hero__title span {
+  color: var(--color-primary);
+}
+.hero__title-accent {
+  color: var(--color-primary);
+}
+.hero__description,
+.hero__subtext {
+  width: fit-content;
+  padding-inline: 0.45rem;
+  border-radius: 0.35rem;
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.hero__description {
+  max-width: 38rem;
+  margin: 0.9rem auto 0;
+
+  /* color: var(--color-text-light); */
+  color: rgba(18, 48, 68, 0.92);
+  text-shadow:
+    0 1px 2px rgba(255, 255, 255, 1),
+    0 0 10px rgba(255, 255, 255, 0.8);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-weight: 500;
+}
+.hero__subtext {
+  max-width: 46rem;
+  margin: 0.75rem auto 0;
+  /* color: var(--color-text-light); */
+  color: rgba(18, 48, 68, 0.9);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.6;
+  text-shadow:
+    0 1px 2px rgba(255, 255, 255, 1),
+    0 0 10px rgba(255, 255, 255, 0.82);
+  /* opacity: 0.9; */
+}
+@media (max-width: 64rem) {
+  .hero {
+    min-height: 30rem;
+    padding: 3.5rem 0 8rem;
+  }
+
+  .hero__inner {
+    padding-top: 3rem;
+  }
+
+  .hero__background {
+    background-position: 62% center;
+  }
+
+  .hero__content {
+    width: min(100%, 42rem);
+  }
+
+  .hero__title {
+    font-size: clamp(2.1rem, 5vw, 2.8rem);
+  }
+}
+
+/* Tablet */
+@media (max-width: 48rem) {
+  .hero {
+    min-height: 33rem;
+    padding: 2.5rem 0 9rem;
+  }
+
+  .hero__inner {
+    padding-top: 2rem;
+  }
+
+  .hero__content {
+    width: min(100%, 34rem);
+    padding-inline: 1rem;
+    text-align: center;
+  }
+
+  .hero__title {
+    white-space: normal;
+    font-size: clamp(2rem, 8vw, 2.65rem);
+  }
+
+  .hero__description {
+    max-width: 29rem;
+    font-size: 0.95rem;
+  }
+
+  .hero__subtext {
+    max-width: 30rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 42rem) {
+  .hero {
+    min-height: 37rem;
+    padding: 2rem 0 10rem;
+  }
+
+  .hero__inner {
+    padding-top: 1.5rem;
+  }
+
+  .hero__background {
+    background-position: 68% center;
+  }
+
+  .hero__content {
+    width: 100%;
+    padding-inline: 1.25rem;
+  }
+
+  .hero__content::before {
+    inset: -1.5rem -1rem;
+  }
+
+  .hero__title {
+    max-width: 22rem;
+    margin-inline: auto;
+
+    font-size: clamp(1.9rem, 9vw, 2.4rem);
+    white-space: normal;
+  }
+
+  .hero__description {
+    max-width: 22rem;
+    margin-top: 0.75rem;
+  }
+
+  .hero__subtext {
+    max-width: 23rem;
+    margin-top: 0.65rem;
+  }
+}
