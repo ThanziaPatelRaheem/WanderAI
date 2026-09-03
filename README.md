@@ -18,15 +18,17 @@ New features and improvements are continuously being added as I progress through
 
 ## ✨ Current Features
 
-- Generate personalized travel itineraries
+- Generate personalized AI travel itineraries
 - Input destination, trip duration, budget, and travel style
-- AI-generated itinerary using the OpenAI API
+- Real-time streaming itinerary generation
+- Follow-up AI travel assistant ("Ask")
+- Streaming responses for follow-up questions
+- Multi-turn conversation context
 - Responsive React user interface
 - Loading and error states
-- RESTful backend architecture
-- Express routing
+- RESTful Express backend
 - Controller-Service architecture
-- Secure server-side API integration
+- Secure server-side OpenAI API integration
 - Environment variable management
 
 ---
@@ -98,6 +100,12 @@ wanderai/
 
 5. The itinerary is returned and displayed in the frontend.
 
+6. After the itinerary is generated, the user can ask follow-up
+   questions related to the trip.
+
+7. Previous conversation context is included so the AI can respond
+   based on the generated itinerary and earlier questions.
+
 ---
 
 ## 🎯 Learning Goals
@@ -107,11 +115,12 @@ This project is helping me gain hands-on experience with:
 - Building AI-powered full-stack applications
 - OpenAI API integration
 - Prompt engineering
+- Multi-turn AI conversations
+- Managing conversational context with LLM APIs
 - REST API development
 - Secure server-side API communication
 - Component-based React architecture
-- Error handling
-- Loading states
+- Error and loading state handling
 - Environment variable management
 - Scalable backend architecture
 
@@ -121,19 +130,10 @@ This project is helping me gain hands-on experience with:
 
 The project is still evolving. Planned enhancements include:
 
-- Streaming AI responses
-- Editable itineraries
 - Save and manage trips
 - User authentication
 - Trip history
-- Interactive maps
-- Hotel and attraction recommendations
-- Weather integration
-- Image generation
 - PDF itinerary export
-- Improved prompt engineering
-- Better UI/UX
-- Mobile optimization
 
 ---
 
@@ -150,5 +150,3 @@ This project is currently under active development as part of my journey into AI
 The focus is on learning best practices while building a production-style full-stack application using modern web technologies and LLM APIs.
 
 ---
-
-
