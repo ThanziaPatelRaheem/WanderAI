@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ItineraryResult from "../ItineraryResult/ItineraryResult";
+import ItineraryChat from "../ItineraryChat/ItineraryChat";
 import "./TravelForm.css";
 
 const TravelForm = () => {
@@ -11,6 +12,7 @@ const TravelForm = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [itinerary, setItinerary] = useState("");
+  const [itineraryId, setItineraryId] = useState("");
   const [error, setError] = useState("");
   const itineraryRef = useRef(null);
 
@@ -48,6 +50,10 @@ const TravelForm = () => {
           body: JSON.stringify(formData),
         },
       );
+
+      const id = res.headers.get("X-Itinerary-Id");
+
+      setItineraryId(id);
 
       if (!res.ok) {
         const message = await res.text();
@@ -191,6 +197,9 @@ const TravelForm = () => {
           )}
 
           <ItineraryResult itinerary={itinerary} tripDetails={formData} />
+          {itinerary && !isLoading && (
+            <ItineraryChat itineraryId={itineraryId} />
+          )}
         </div>
       </section>
     </>
