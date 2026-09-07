@@ -139,7 +139,23 @@ The project is still evolving. Planned enhancements include:
 
 ## 📸 Screenshots
 
-Screenshots will be added as the UI continues to evolve.
+### Itinerary Generator
+
+Enter a destination, trip duration, budget, and travel style to generate a personalized itinerary.
+
+![WanderAI Itinerary Generator](./screenshots/itinerary-form.png)
+
+### AI-Generated Itinerary
+
+WanderAI generates a personalized itinerary along with current travel conditions.
+
+![WanderAI Generated Itinerary](./screenshots/generated-itinerary.png)
+
+### AI Travel Assistant
+
+Users can ask follow-up questions about their trip and receive contextual AI responses.
+
+![WanderAI Travel Assistant](./screenshots/travel-assistant.png)
 
 ---
 

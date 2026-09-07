@@ -87,7 +87,7 @@ const ItineraryChat = ({ itineraryId }) => {
         {messages.length === 0 && (
           <div className="chat-empty-state">
             <p>
-              Try asking: <strong>“Which transport pass should I use?”</strong>
+              Try asking: <strong>“What should I know before my trip?”</strong>
             </p>
           </div>
         )}
