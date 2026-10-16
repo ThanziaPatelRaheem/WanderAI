@@ -1,7 +1,5 @@
-import React from "react";
 import TravelForm from "../../components/TravelForm/TravelForm";
 import Hero from "../../components/Hero/Hero";
-import "./Home.css";
 
 const Home = () => {
   return (
