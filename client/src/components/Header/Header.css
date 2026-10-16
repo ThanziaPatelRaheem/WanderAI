@@ -34,19 +34,9 @@
   color: white;
   font-size: 1.25rem;
 }
-/* .header__logo-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-primary);
-  font-size: 1.6rem;
-  flex-shrink: 0;
-  width: 2.5rem;
-  height: 2.5rem;
-} */
+
 .header__brand-name {
   font-size: 1.25rem;
-
   background: linear-gradient(90deg, #0a6d70, #0f8b8d, #28b3a8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -67,12 +57,10 @@
 }
 .header__nav-link {
   position: relative;
-
   color: var(--color-text);
   font-size: 0.95rem;
   font-weight: 500;
   text-decoration: none;
-
   transition: color 0.2s ease;
 }
 
@@ -88,7 +76,6 @@
   left: 0;
   right: 0;
   bottom: -1.2rem;
-
   height: 0.125rem;
   background-color: var(--color-primary);
   border-radius: 999rem;
@@ -106,15 +93,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   min-height: 2.75rem;
   padding-inline: 1.1rem;
-
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
   border-radius: 0.65rem;
-
   transition:
     background-color 0.2s ease,
     color 0.2s ease,

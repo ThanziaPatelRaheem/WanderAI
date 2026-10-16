@@ -1,22 +1,21 @@
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { openai } from "../config/openaiClient.js";
 import { supabase } from "../config/supabaseClient.js";
-import crypto from "node:crypto";
 
 export const createItineraryEmbeddings = async (itinerary, itineraryId) => {
-  // creating text splitter
+  // Create text splitter
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 500,
     chunkOverlap: 50,
   });
 
-  // split itinerary into chunks
+  // Split itinerary into chunks
   const output = await splitter.createDocuments([itinerary]);
 
-  // mapping output and extarcting only pagecontent
+  // Extract text content from chunks
   const texts = output.map((chunk) => chunk.pageContent);
 
-  // Create embeddings for all chunks
+  // Generate embeddings for all chunks
   const response = await openai.embeddings.create({
     model: "text-embedding-3-small",
     input: texts,
@@ -38,16 +37,14 @@ export const createItineraryEmbeddings = async (itinerary, itineraryId) => {
     .select();
 
   if (error) {
-    console.log("Supabase insert error:", error);
+    console.error("Supabase insert error:", error);
     throw error;
   }
-  console.log("inserted rows", data);
 
   return data;
 };
 
-// Create user query embedding
-
+// Create embedding for the user's question
 export const createQueryEmbedding = async (question) => {
   const queryEmbeddingRes = await openai.embeddings.create({
     model: "text-embedding-3-small",
@@ -57,18 +54,16 @@ export const createQueryEmbedding = async (question) => {
   return queryEmbeddingRes.data[0].embedding;
 };
 
-// search the relevance for user query with matching itineraryId
+// Retrieve relevant itinerary chunks
 export const searchItinerary = async (queryEmbedding, itineraryId) => {
   const { data, error } = await supabase.rpc("match_itinerary_embeddings", {
     query_embedding: queryEmbedding,
     query_itinerary_id: itineraryId,
-    match_count: 3,
+    match_count: 8,
   });
 
-  console.log(data);
-
   if (error) {
-    console.log(error);
+    console.error("Supabase search error:", error);
     return null;
   }
 

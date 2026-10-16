@@ -1,7 +1,7 @@
 .travel-chat {
   width: 100%;
-  max-width: 900px;
-  margin: 48px auto;
+  max-width: 1050px;
+  margin: 30px auto;
   background: #ffffff;
   border: 1px solid #e4eeee;
   border-radius: 18px;
@@ -30,7 +30,7 @@
 
 .travel-chat-header p {
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
   color: #6d7c7e;
   line-height: 1.5;
 }
@@ -83,7 +83,7 @@
   max-width: 75%;
   padding: 14px 17px;
   border-radius: 16px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.65;
 }
 
@@ -224,7 +224,7 @@
 
 @media (max-width: 768px) {
   .travel-chat {
-    margin: 30px 16px;
+    margin: 12px 16px 30px;
     width: auto;
   }
 
@@ -235,6 +235,7 @@
 
   .chat-bubble {
     max-width: 88%;
+    font-size: 1.07rem;
   }
 
   .travel-chat-header {
@@ -247,5 +248,58 @@
 
   .travel-chat-form button {
     padding: 0 16px;
+  }
+  .travel-chat-header p {
+    font-size: 1rem;
+  }
+  .chat-empty-state {
+    font-size: 1rem;
+  }
+
+  .travel-chat-form input {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 42rem) {
+  .travel-chat {
+    margin-top: 2rem;
+    margin-bottom: 1.9rem;
+  }
+}
+@media (max-width: 30rem) {
+  .travel-chat {
+    width: 100%;
+    margin: -2.7rem auto 1.9rem;
+    box-sizing: border-box;
+  }
+
+  .travel-chat-messages {
+    padding: 0.75rem;
+  }
+
+  .chat-message-row {
+    gap: 0.5rem;
+  }
+
+  .assistant-avatar {
+    width: 1.75rem;
+    height: 1.75rem;
+    min-width: 1.75rem;
+    font-size: 0.625rem;
+  }
+
+  .chat-bubble {
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  .assistant-content ul,
+  .assistant-content ol {
+    margin-left: 1rem;
   }
 }

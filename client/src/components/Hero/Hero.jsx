@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { heroImages } from "./heroImages";
-import { Link } from "react-router-dom";
 import "./Hero.css";
 
 const Hero = () => {

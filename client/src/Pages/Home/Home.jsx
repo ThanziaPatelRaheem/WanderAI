@@ -7,7 +7,9 @@ const Home = () => {
   return (
     <main>
       <Hero />
-      <TravelForm />
+      <section id="travel-form">
+        <TravelForm />
+      </section>
     </main>
   );
 };

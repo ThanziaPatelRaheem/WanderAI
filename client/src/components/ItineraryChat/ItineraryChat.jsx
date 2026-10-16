@@ -3,16 +3,18 @@ import { marked } from "marked";
 import DOMPurify from "dompurify";
 import "./ItineraryChat.css";
 
-const ItineraryChat = ({ itineraryId }) => {
+const ItineraryChat = ({ itineraryId, isReady }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isReady || isLoading) return;
 
     if (!question.trim()) return;
 
@@ -31,7 +33,7 @@ const ItineraryChat = ({ itineraryId }) => {
     setError(null);
 
     try {
-      const res = await fetch("http://localhost:8080/api/query/ask", {
+      const res = await fetch(`${API_BASE_URL}/api/query/ask`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,11 +65,32 @@ const ItineraryChat = ({ itineraryId }) => {
       setIsLoading(false);
     }
   };
-
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+    const container = messagesContainerRef.current;
+    if (!container) return;
+
+    if (isLoading) {
+      // While generating, scroll to the loading dots
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth",
+      });
+    } else {
+      // When the answer arrives, scroll to its beginning
+      const messageRows = container.querySelectorAll(".chat-message-row");
+      const lastMessage = messageRows[messageRows.length - 1];
+
+      if (!lastMessage) return;
+
+      container.scrollTo({
+        top:
+          lastMessage.getBoundingClientRect().top -
+          container.getBoundingClientRect().top +
+          container.scrollTop -
+          12,
+        behavior: "smooth",
+      });
+    }
   }, [messages, isLoading]);
 
   return (
@@ -83,7 +106,7 @@ const ItineraryChat = ({ itineraryId }) => {
         </div>
       </div>
 
-      <div className="travel-chat-messages">
+      <div className="travel-chat-messages" ref={messagesContainerRef}>
         {messages.length === 0 && (
           <div className="chat-empty-state">
             <p>
@@ -115,7 +138,15 @@ const ItineraryChat = ({ itineraryId }) => {
                   <div
                     className="assistant-content"
                     dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(marked.parse(message.content)),
+                      __html: DOMPurify.sanitize(
+                        marked.parse(message.content),
+                        {
+                          ADD_ATTR: ["target"],
+                        },
+                      ).replace(
+                        /<a\s/g,
+                        '<a target="_blank" rel="noopener noreferrer" ',
+                      ),
                     }}
                   />
                 )}
@@ -136,7 +167,7 @@ const ItineraryChat = ({ itineraryId }) => {
           </div>
         )}
 
-        <div ref={messagesEndRef} />
+        <div />
       </div>
 
       {error && <p className="chat-error">{error}</p>}
@@ -144,14 +175,17 @@ const ItineraryChat = ({ itineraryId }) => {
       <form className="travel-chat-form" onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Ask something about your trip..."
+          placeholder={
+            isReady
+              ? "Ask something about your trip..."
+              : "Preparing your travel assistance"
+          }
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           disabled={isLoading}
         />
-
-        <button type="submit" disabled={isLoading || !question.trim()}>
-          Ask
+        <button type="submit" disabled={!isReady || isLoading}>
+          {isLoading ? "Generating..." : "Ask"}
         </button>
       </form>
     </section>

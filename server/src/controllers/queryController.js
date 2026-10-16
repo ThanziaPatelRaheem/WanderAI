@@ -6,8 +6,6 @@ export const askQuestion = async (req, res) => {
 
     const answer = await processQuery(question, itineraryId, messages);
 
-    console.log("AI answer:", answer);
-
     res.status(200).json({
       success: true,
       answer,

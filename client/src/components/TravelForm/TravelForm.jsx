@@ -4,6 +4,7 @@ import ItineraryChat from "../ItineraryChat/ItineraryChat";
 import "./TravelForm.css";
 
 const TravelForm = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [formData, setFormData] = useState({
     destination: "",
     days: "",
@@ -14,7 +15,10 @@ const TravelForm = () => {
   const [itinerary, setItinerary] = useState("");
   const [itineraryId, setItineraryId] = useState("");
   const [error, setError] = useState("");
+  const [showChat, setShowChat] = useState(false);
   const itineraryRef = useRef(null);
+  const chatRef = useRef(null);
+  const formRef = useRef(null);
 
   useEffect(() => {
     if (itinerary && isLoading) {
@@ -24,6 +28,45 @@ const TravelForm = () => {
       });
     }
   }, [itinerary, isLoading]);
+
+  const openChat = () => {
+    if (showChat) {
+      chatRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else {
+      setShowChat(true);
+    }
+  };
+
+  useEffect(() => {
+    if (showChat) {
+      chatRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [showChat]);
+
+  const handleNewTrip = () => {
+    setFormData({
+      destination: "",
+      days: "",
+      budget: "",
+      travelStyle: "",
+    });
+
+    setItinerary("");
+    setItineraryId("");
+    setShowChat(false);
+    setError("");
+
+    formRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -40,16 +83,15 @@ const TravelForm = () => {
       setIsLoading(true);
       setError("");
       setItinerary("");
-      const res = await fetch(
-        "http://localhost:8080/api/itineraries/generate",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+      setItineraryId("");
+      setShowChat(false);
+      const res = await fetch(`${API_BASE_URL}/api/itineraries/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(formData),
+      });
 
       const id = res.headers.get("X-Itinerary-Id");
 
@@ -87,9 +129,10 @@ const TravelForm = () => {
       setIsLoading(false);
     }
   }
+
   return (
     <>
-      <section className="travel-form-section">
+      <section className="travel-form-section" ref={formRef}>
         <div className="container">
           <div className="travel-form-card">
             <form className="travel-form" onSubmit={handelSubmit}>
@@ -196,9 +239,20 @@ const TravelForm = () => {
             </p>
           )}
 
-          <ItineraryResult itinerary={itinerary} tripDetails={formData} />
-          {itinerary && !isLoading && (
-            <ItineraryChat itineraryId={itineraryId} />
+          <ItineraryResult
+            itinerary={itinerary}
+            tripDetails={formData}
+            onAskAI={openChat}
+            onNewTrip={handleNewTrip}
+            showChatButton={Boolean(
+              itinerary && !isLoading && !error && itineraryId,
+            )}
+          />
+
+          {showChat && !isLoading && itineraryId && !error && (
+            <div ref={chatRef}>
+              <ItineraryChat itineraryId={itineraryId} isReady={true} />
+            </div>
           )}
         </div>
       </section>

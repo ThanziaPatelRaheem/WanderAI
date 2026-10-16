@@ -34,6 +34,11 @@ Always:
 - Avoid repeating the same attractions.
 - Recommend authentic local experiences where possible.
 - Return the response in clean Markdown format.
+- When providing website links, use only URLs obtained from actual web search results.
+- Never invent, guess, or construct website URLs.
+- Prefer official tourism websites, government websites, and official attraction websites.
+- If a reliable URL is unavailable, mention the place by name without adding a link.
+- Format website links using Markdown: [Website Name](https://example.com).
 `;
 
 export const buildItineraryPrompt = ({

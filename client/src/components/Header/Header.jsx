@@ -16,51 +16,12 @@ const Header = () => {
           </span>
         </Link>
         <nav className="header-navigation">
-          <ul className="header__nav-list">
-            <li>
-              <NavLink
-                to="/"
-                end
-                className={({ isActive }) =>
-                  isActive
-                    ? "header__nav-link header__nav-link--active"
-                    : "header__nav-link"
-                }
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/features"
-                className={({ isActive }) =>
-                  isActive
-                    ? "header__nav-link header__nav-link--active"
-                    : "header__nav-link"
-                }
-              >
-                Features
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  isActive
-                    ? "header__nav-link header__nav-link--active"
-                    : "header__nav-link"
-                }
-              >
-                Login
-              </NavLink>
-            </li>
-          </ul>
+          <ul className="header__nav-list"></ul>
         </nav>
         <div className="header__actions">
-          <Link to="/features" className="header-secondary-link">
-            Explore
+          <Link to="/login" className="header__primary-link">
+            Login
           </Link>
-          <Link className="header__primary-link">Get Started</Link>
         </div>
       </div>
     </header>

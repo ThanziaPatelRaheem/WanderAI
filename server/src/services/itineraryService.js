@@ -21,6 +21,9 @@ export const generateItineraryService = async ({
     model: process.env.OPENAI_MODEL,
     instructions: systemPrompt,
     input: userPrompt,
+    reasoning: {
+      effort: "low",
+    },
     tools: [
       {
         type: "web_search",
