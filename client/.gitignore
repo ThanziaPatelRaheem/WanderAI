@@ -33,3 +33,7 @@ dist-ssr
 # Temporary image optimization files
 optimized-images/
 src/assets/images/hero-backup/
+
+# Playwright generated reports
+playwright-report/
+test-results/
