@@ -1,0 +1,108 @@
+# Name displayed in the GitHub Actions tab
+name: WanderAI CI
+
+# Events that trigger this workflow
+on:
+  # Run whenever code is pushed to the main branch
+  push:
+    branches: [main]
+
+  # Run when a pull request targets the main branch
+  pull_request:
+    branches: [main]
+
+# Define the jobs GitHub Actions should execute
+jobs:
+  # Job 1: Test the Express backend
+  backend-tests:
+    # Use a fresh Ubuntu virtual machine provided by GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download our repository code onto the runner
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Node.js 22
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      # Install backend dependencies
+      - name: Install backend dependencies
+        working-directory: ./server
+        run: npm ci
+
+      # Run backend Vitest tests
+      - name: Run backend tests
+        working-directory: ./server
+        run: npm test -- --run
+
+  # Job 2: Test and build the React frontend
+  frontend-tests:
+    # Use a fresh Ubuntu virtual machine provided by GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download the WanderAI repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Node.js 22
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      # Install frontend dependencies
+      - name: Install frontend dependencies
+        working-directory: ./client
+        run: npm ci
+
+      # Run frontend Vitest tests
+      - name: Run frontend tests
+        working-directory: ./client
+        run: npm test -- --run
+
+      # Verify the React production build
+      - name: Build frontend
+        working-directory: ./client
+        run: npm run build
+
+  # Job 3: Run browser-based end-to-end tests
+  e2e-tests:
+    # Use a fresh Ubuntu virtual machine provided by GitHub
+    runs-on: ubuntu-latest
+
+    steps:
+      # Download the WanderAI repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Node.js 22
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      # Install frontend dependencies
+      - name: Install frontend dependencies
+        working-directory: ./client
+        run: npm ci
+
+      # Install Chromium and required system dependencies
+      - name: Install Playwright browser
+        working-directory: ./client
+        run: npx playwright install --with-deps chromium
+
+      # Run Playwright end-to-end tests
+      - name: Run end-to-end tests
+        working-directory: ./client
+        run: npx playwright test

@@ -1,0 +1,27 @@
+
+# Exclude local dependencies
+# Docker installs its own dependencies using npm ci
+node_modules/
+
+# Exclude environment variables and secret credentials
+.env
+.env.*
+!.env.example
+
+# Exclude test files and coverage reports
+tests/
+coverage/
+
+# Exclude logs
+*.log
+npm-debug.log*
+
+# Exclude Git and editor files
+.git/
+.vscode/
+.idea/
+.DS_Store
+
+# Exclude documentation and generated build files
+README.md
+dist/

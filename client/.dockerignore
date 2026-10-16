@@ -1,0 +1,37 @@
+
+# Docker installs dependencies inside the image
+node_modules/
+
+# Exclude local environment configuration
+# Production values are supplied during the Docker build
+.env
+.env.*
+!.env.example
+
+# Exclude previous production builds
+dist/
+dist-ssr/
+
+# Exclude tests and generated test reports
+tests/
+src/test/
+playwright-report/
+test-results/
+coverage/
+
+# Exclude temporary image optimization files
+optimized-images/
+src/assets/images/hero-backup/
+
+# Exclude logs
+*.log
+npm-debug.log*
+
+# Exclude Git and editor files
+.git/
+.vscode/
+.idea/
+.DS_Store
+
+# Exclude local documentation
+README.md
