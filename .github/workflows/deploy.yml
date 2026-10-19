@@ -33,12 +33,40 @@ jobs:
     environment: production
 
     steps:
+      # Step 1: Inspect GitHub OIDC identity
+      - name: Inspect GitHub OIDC claims
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          RESPONSE=$(curl -fsS \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com")
+
+          TOKEN_RESPONSE="$RESPONSE" python3 - <<'PY'
+          import os
+          import json
+          import base64
+
+          token = json.loads(os.environ["TOKEN_RESPONSE"])["value"]
+          payload = token.split(".")[1]
+          payload += "=" * (-len(payload) % 4)
+          claims = json.loads(base64.urlsafe_b64decode(payload))
+
+          print("Subject:", claims.get("sub"))
+          print("Audience:", claims.get("aud"))
+          print("Repository:", claims.get("repository"))
+          print("Environment:", claims.get("environment"))
+          PY
+
+      # Step 2: Authenticate GitHub Actions with AWS
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::009160063400:role/WanderAI-GitHub-Deploy-Role
           aws-region: ap-southeast-1
 
+      # Step 3: Deploy WanderAI through AWS Systems Manager
       - name: Deploy WanderAI through SSM
         env:
           DEPLOY_SHA: ${{ github.event.workflow_run.head_sha }}
