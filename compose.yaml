@@ -32,9 +32,10 @@ services:
     # Name the resulting Docker image
     image: wanderai-frontend
 
-    # Map port 3000 on your Mac to Nginx port 80
+    # Map HTTP port 80 to the Nginx container
+
     ports:
-      - "3000:80"
+      - "80:80"
 
     # Start the backend service before the frontend
     depends_on:
