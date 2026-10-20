@@ -8,7 +8,7 @@ Built with React, Node.js, Express, OpenAI, and Supabase, WanderAI is containeri
 
 ### 🔗 Live Demo
 
-**[Explore WanderAI](http://18.141.233.167)**
+**[Explore WanderAI](https://wanderai.duckdns.org)**
 
 **[GitHub Repository](https://github.com/ThanziaPatelRaheem/WanderAI)**
 
@@ -51,24 +51,29 @@ Built with React, Node.js, Express, OpenAI, and Supabase, WanderAI is containeri
 - GitHub Actions CD pipeline for automated deployment after successful CI.
 - AWS Systems Manager for remote deployment execution.
 - GitHub OIDC authentication for secure AWS access without long-lived AWS credentials.
+- HTTPS enabled using Caddy as a reverse proxy with automatic TLS certificate management.
+- Free DuckDNS hostname configured for secure public access.
+- Automatic HTTP-to-HTTPS redirection.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Category         | Technologies                              |
-| ---------------- | ----------------------------------------- |
-| Frontend         | React, Vite, JavaScript, CSS              |
-| Backend          | Node.js, Express.js, REST APIs            |
-| AI               | OpenAI Responses API, OpenAI Embeddings   |
-| RAG              | LangChain Text Splitters, Semantic Search |
-| Vector Database  | Supabase, PostgreSQL with pgvector        |
-| Containerization | Docker, Docker Compose                    |
-| Web Server       | Nginx                                     |
-| Cloud            | AWS EC2, AWS Systems Manager, AWS IAM     |
-| CI/CD            | GitHub Actions, GitHub OIDC               |
-| Testing          | Vitest, React Testing Library, Playwright |
-| Version Control  | Git, GitHub                               |
+## 🛠️ Tech Stack
+
+| Category           | Technologies                              |
+| ------------------ | ----------------------------------------- |
+| Frontend           | React, Vite, JavaScript, CSS              |
+| Backend            | Node.js, Express.js, REST APIs            |
+| AI                 | OpenAI Responses API, OpenAI Embeddings   |
+| RAG                | LangChain Text Splitters, Semantic Search |
+| Vector Database    | Supabase, PostgreSQL with pgvector        |
+| Containerization   | Docker, Docker Compose                    |
+| Web Server & HTTPS | Nginx, Caddy, DuckDNS, TLS                |
+| Cloud              | AWS EC2, AWS Systems Manager, AWS IAM     |
+| CI/CD              | GitHub Actions, GitHub OIDC               |
+| Testing            | Vitest, React Testing Library, Playwright |
+| Version Control    | Git, GitHub                               |
 
 ---
 
@@ -195,7 +200,8 @@ WanderAI/
 │   ├── ask-wanderai-button.png
 │   └── travel-assistant.png
 │
-├── compose.yaml
+├── Caddyfile          # HTTPS reverse proxy configuration
+├── compose.yaml       # Docker Compose services
 └── README.md
 ```
 
@@ -308,7 +314,55 @@ To stop the containers:
 docker compose down
 ```
 
-The published frontend port is configured in `compose.yaml`.
+Caddy exposes ports 80 and 443 for public HTTP and HTTPS access. The frontend and backend communicate internally through Docker Compose networking.
+
+---
+
+## 🔐 HTTPS and Secure Deployment
+
+WanderAI is publicly accessible over HTTPS at **https://wanderai.duckdns.org**.
+
+The application uses **DuckDNS** for its free hostname and **Caddy** as an HTTPS reverse proxy running in a Docker container.
+
+### How HTTPS Works
+
+1. **DuckDNS** resolves `wanderai.duckdns.org` to the AWS EC2 server's public IP address.
+2. **Caddy** handles incoming HTTPS connections on port 443.
+3. Caddy automatically obtains and renews TLS certificates through its supported certificate authorities.
+4. Caddy forwards requests to the internal Nginx frontend container.
+5. **Nginx** serves the React application and forwards `/api/` requests to the Express backend.
+6. HTTP requests are automatically redirected to HTTPS.
+
+### HTTPS Architecture
+
+```text
+Browser
+   |
+   | HTTPS (Port 443)
+   v
+DuckDNS Hostname
+   |
+   v
+AWS EC2
+   |
+   v
+Caddy (TLS Termination)
+   |
+   | Internal HTTP
+   v
+Nginx (React Frontend)
+   |
+   | /api/ requests
+   v
+Express Backend
+   |
+   v
+OpenAI API / Supabase
+```
+
+Caddy stores certificate information in persistent Docker volumes, allowing certificates to survive container restarts and supporting automatic renewal.
+
+This configuration enables encrypted browser-to-server communication while keeping the Express backend inaccessible directly from the public internet.
 
 ---
 
@@ -427,7 +481,6 @@ Future improvements may include:
 - PDF itinerary export
 - Additional itinerary customization
 - Enhanced travel recommendations
-- HTTPS and custom domain configuration
 
 ---
 
@@ -447,6 +500,9 @@ Building WanderAI provided hands-on experience with:
 - Implementing automated CI/CD with GitHub Actions
 - Configuring secure AWS authentication using GitHub OIDC
 - Automating EC2 deployments through AWS Systems Manager
+- Configuring HTTPS with Caddy and automatic TLS certificate management.
+- Setting up DuckDNS for domain resolution and secure application access.
+- Implementing HTTP-to-HTTPS redirection and reverse proxy routing.
 
 ---
 
