@@ -2,44 +2,49 @@
 services:
   # Express backend responsible for OpenAI and Supabase operations
   backend:
-    # Build the backend image using server/Dockerfile
     build:
       context: ./server
-
-    # Name the resulting Docker image
     image: wanderai-backend
-
-    # Provide backend environment variables at runtime
     env_file:
       - ./server/.env
-
-    # Make the backend accessible to other containers
-    # without publishing port 8080 to the public host
     expose:
       - "8080"
-
-    # Restart the backend automatically unless stopped manually
     restart: unless-stopped
 
   # React frontend served through Nginx
   frontend:
-    # Build the frontend image using client/Dockerfile
     build:
       context: ./client
       args:
         VITE_API_BASE_URL: ""
-
-    # Name the resulting Docker image
     image: wanderai-frontend
 
-    # Map HTTP port 80 to the Nginx container
+    # Nginx is accessible internally through Caddy
+    expose:
+      - "80"
 
-    ports:
-      - "80:80"
-
-    # Start the backend service before the frontend
     depends_on:
       - backend
-
-    # Restart the frontend automatically unless stopped manually
     restart: unless-stopped
+
+  # HTTPS reverse proxy with automatic SSL certificates
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+    depends_on:
+      - frontend
+    restart: unless-stopped
+
+# Preserve SSL certificates and Caddy configuration
+volumes:
+  caddy_data:
+  caddy_config:
